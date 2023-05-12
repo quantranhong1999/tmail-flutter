@@ -14,10 +14,10 @@ RUN bash prebuild.sh && flutter build web --profile
 FROM nginx:mainline
 RUN chmod -R 755 /usr/share/nginx/html && apt install -y gzip
 COPY --from=build-env /app/server/nginx.conf /etc/nginx
-COPY --from=build-env /app/build/web /usr/share/nginx/html
+COPY --from=build-env /app/build/web /usr/share/nginx/html/v0.8.1
 
 # Record the exposed port
 EXPOSE 80
 
 # Before stating NGinx, re-zip all the content to ensure customizations are propagated
-CMD gzip -k -r -f /usr/share/nginx/html/ && nginx -g 'daemon off;'
+CMD gzip -k -r -f /usr/share/nginx/html/v0.8.1 && nginx -g 'daemon off;'
